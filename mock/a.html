@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>sqlite</title>
+    <script type="text/javascript">
+        var db;
+        function Onload() {
+            db = CreateOrOpenDB('MyTestDB');
+        }
+        function CreateOrOpenDB(dbname) {//创建或打开一个本地的数据库对象
+            var db = openDatabase(dbname, '1.0', '', 2 * 1024 * 1024);
+            return db;
+        }
+        function CreateTable() {//创建表
+            db.transaction(function (context) {
+                context.executeSql('CREATE TABLE IF NOT EXISTS Student (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,address TEXT)');
+            }, function (error) {
+                console.log('创建表失败:[' + error.message + ']');
+            }, function () {
+                console.log('创建表成功');
+            });
+        }
+        function InsertData() {//插入数据
+            db.transaction(function (context) {
+                context.executeSql('INSERT INTO Student (name,address) VALUES ("张三","浙江")');
+                context.executeSql('INSERT INTO Student (name,address) VALUES ("李四","江苏")');
+                context.executeSql('INSERT INTO Student (name,address) VALUES ("王五","上海")');
+            }, function (error) {
+                console.log('插入数据失败:[' + error.message + ']');
+            }, function () {
+                console.log('插入数据成功');
+            });
+        }
+        function UpdateData() {//更新数据
+            db.transaction(function (context) {
+                context.executeSql('UPDATE Student SET address="海南" WHERE id=1');
+            }, function (error) {
+                console.log('更新数据失败:[' + error.message + ']');
+            }, function () {
+                console.log('更新数据成功');
+            });
+        }
+        function DeleteData() {//删除数据
+            db.transaction(function (context) {
+                context.executeSql('DELETE FROM Student WHERE id=1');
+            }, function (error) {
+                console.log('删除数据失败:[' + error.message + ']');
+            }, function () {
+                console.log('删除数据成功');
+            });
+        }
+        function SelectData() {//查询数据
+            db.transaction(function (context) {
+                context.executeSql('SELECT * FROM Student', [], function (context, results) {
+                    var items = results.rows;
+                    for (i = 0; i < items.length; i++) {
+                        var item = items.item(i);
+                        alert('{id:"' + item.id + '",name:"' + item.name + '",address:"' + item.address + '"}');
+                    }
+                });
+            }, function (error) {
+                console.log('查询数据失败:[' + error.message + ']');
+            }, function () {
+                console.log('查询数据成功');
+            });
+        }
+        function DropTable() {//删除表
+            db.transaction(function (context) {
+                context.executeSql('DROP TABLE IF EXISTS Student');
+            }, function (error) {
+                console.log('删除表失败:[' + error.message + ']');
+            }, function () {
+                console.log('删除表成功');
+            });
+        }
+    </script>
+</head>
+<body onload="Onload();">
+<div>
+    <table style=" width:100%">
+        <tr><td><input type="button" value="创建表" onclick="CreateTable();" style=" width:100%; height:100px;"></td></tr>
+        <tr><td><input type="button" value="插入数据" onclick="InsertData();" style=" width:100%; height: 100px;"></td></tr>
+        <tr><td><input type="button" value="更新数据" onclick="UpdateData();" style=" width:100%; height: 100px;"></td></tr>
+        <tr><td><input type="button" value="删除数据" onclick="DeleteData();" style=" width:100%; height: 100px;"></td></tr>
+        <tr><td><input type="button" value="查询数据" onclick="SelectData();" style=" width:100%; height: 100px;"></td></tr>
+        <tr><td><input type="button" value="删除表" onclick="DropTable();" style=" width:100%; height: 100px;"></td></tr>
+    </table>
+</div>
+</body>
+</html>

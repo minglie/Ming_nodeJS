@@ -1,0 +1,1 @@
+Db1=require("../modules/ming_mongo.js")console.log(8)console.log(8)console.log(8)+async function() {   a=await Db1.find("aa",{})   console.log(a)}()

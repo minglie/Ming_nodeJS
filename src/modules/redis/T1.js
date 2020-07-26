@@ -1,0 +1,1 @@
+const redis = require('redis')const client = redis.createClient(6379, 'localhost')//client.set('hello', "AAAAAAAAAA") // 注意，value会被转为字符串,所以存的时候要先把value 转为json字符串client.get('hello', function(err, value){    console.log(JSON.stringify(value))})

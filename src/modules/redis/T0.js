@@ -1,0 +1,1 @@
+const redis = require('redis')const client = redis.createClient(6379, 'localhost')// 数据库选择 //redis默认连接数据库0,可以利用select选择指定数据库0~15client.select("0", function (err) {  if (err) {      return false;  } else {      console.log('connect success');  } });
