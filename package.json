@@ -7,7 +7,7 @@
     "cheerio": "^1.0.0-rc.2",
     "formidable": "^1.2.1",
     "jquery": "^3.3.1",
-    "jsdom": "^12.0.0",
+    "jsdom": "^16.5.0",
     "ming_node": "0.0.26",
     "mongodb": "^2.2.31",
     "mysql": "^2.16.0",
